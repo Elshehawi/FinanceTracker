@@ -3,12 +3,13 @@ package com.example.financetracker.presentation.sign_in
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
-import com.example.financetracker.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.example.financetracker.R
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 
@@ -23,9 +24,9 @@ class GoogleAuthUiClient(
             oneTapClient.beginSignIn(
                 buildSignInRequest()
             ).await()
-        } catch (e: Exception) {
+        } catch(e: Exception) {
             e.printStackTrace()
-            if (e is CancellationException) throw e
+            if(e is CancellationException) throw e
             null
         }
         return result?.pendingIntent?.intentSender
@@ -47,9 +48,9 @@ class GoogleAuthUiClient(
                 },
                 errorMessage = null
             )
-        } catch (e: Exception) {
+        } catch(e: Exception) {
             e.printStackTrace()
-            if (e is CancellationException) throw e
+            if(e is CancellationException) throw e
             SignInResult(
                 data = null,
                 errorMessage = e.message
@@ -57,28 +58,28 @@ class GoogleAuthUiClient(
         }
     }
 
-
     suspend fun signOut() {
         try {
             oneTapClient.signOut().await()
             auth.signOut()
-        } catch (e: Exception) {
+        } catch(e: Exception) {
             e.printStackTrace()
-            if (e is CancellationException) throw e
+            if(e is CancellationException) throw e
         }
     }
 
-    fun getSignedUser(): UserData? = auth.currentUser?.run {
+    fun getSignedInUser(): UserData? = auth.currentUser?.run {
         UserData(
             userId = uid,
             username = displayName,
             profilePicture = photoUrl?.toString()
         )
     }
+
     private fun buildSignInRequest(): BeginSignInRequest {
         return BeginSignInRequest.Builder()
             .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.Builder()
+                GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setFilterByAuthorizedAccounts(false)
                     .setServerClientId(context.getString(R.string.web_client_id))
