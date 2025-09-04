@@ -45,8 +45,23 @@ android {
 
 dependencies {
     // Firebase & Google Auth
-    implementation("com.google.firebase:firebase-auth-ktx:21.1.0")
+    implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:20.4.1")
+    implementation("com.google.firebase:firebase-firestore:24.11.1")
+    implementation(libs.androidx.animation.core.lint)
+
+    val credentialsVersionManger = "1.5.0-alpha05"
+    implementation("androidx.credentials:credentials:$credentialsVersionManger")
+    implementation("androidx.credentials:credentials-play-services-auth:$credentialsVersionManger")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
+    //
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+    implementation("androidx.compose.material3:material3:1.3.0")
+    implementation(platform("androidx.compose:compose-bom:2025.01.00"))
+    implementation("androidx.compose.material3:material3")
+
 
     // Lifecycle + Navigation (Compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

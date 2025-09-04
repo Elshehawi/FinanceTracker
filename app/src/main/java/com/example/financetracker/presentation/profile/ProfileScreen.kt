@@ -22,30 +22,32 @@ fun ProfileScreen(
     onSignOut: () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if(userData?.profilePicture != null) {
-            AsyncImage(
-                model = userData.profilePicture,
-                contentDescription = "Profile picture",
-                modifier = Modifier
-                    .size(150.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-        if(userData?.username != null) {
-            Text(
-                text = userData.username,
-                textAlign = TextAlign.Center,
-                fontSize = 36.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+        // Profile picture or placeholder
+        AsyncImage(
+            model = userData?.profilePicture ?: "https://via.placeholder.com/150",
+            contentDescription = "Profile picture",
+            modifier = Modifier
+                .size(150.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Username or fallback text
+        Text(
+            text = userData?.username ?: "Guest User",
+            textAlign = TextAlign.Center,
+            fontSize = 28.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Button(onClick = onSignOut) {
             Text(text = "Sign out")
         }
